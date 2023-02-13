@@ -1,0 +1,133 @@
+GIT
+  remote: https://github.com/Fretadao/f_rubocop.git
+  revision: bd4ea27ab4ec76e33a1983b76b7c503393ed66c6
+  specs:
+    f_rubocop (0.3.0)
+      rubocop (~> 1.3)
+      rubocop-performance (~> 1.14)
+      rubocop-rails (~> 2.15)
+      rubocop-rspec (~> 2.12)
+
+GIT
+  remote: https://github.com/Fretadao/f_service.git
+  revision: 2dc9282f105655ae45c9cdeca1a2af173f20f254
+  branch: bv-add-multiple-failures
+  specs:
+    f_service (0.2.0)
+
+PATH
+  remote: .
+  specs:
+    f_http_client (0.1.0)
+      httparty
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (7.0.4.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
+    ast (2.4.2)
+    coderay (1.1.3)
+    concurrent-ruby (1.2.0)
+    crack (0.4.5)
+      rexml
+    diff-lcs (1.5.0)
+    docile (1.4.0)
+    hashdiff (1.0.1)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
+    i18n (1.12.0)
+      concurrent-ruby (~> 1.0)
+    json (2.6.3)
+    method_source (1.0.0)
+    mini_mime (1.1.2)
+    minitest (5.17.0)
+    multi_xml (0.6.0)
+    parallel (1.22.1)
+    parser (3.2.1.0)
+      ast (~> 2.4.1)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-nav (1.0.0)
+      pry (>= 0.9.10, < 0.15)
+    public_suffix (5.0.1)
+    rack (3.0.4.1)
+    rainbow (3.1.1)
+    rake (13.0.6)
+    regexp_parser (2.7.0)
+    rexml (3.2.5)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.1)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.0)
+    rubocop (1.45.1)
+      json (~> 2.3)
+      parallel (~> 1.10)
+      parser (>= 3.2.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.24.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.26.0)
+      parser (>= 3.2.1.0)
+    rubocop-capybara (2.17.0)
+      rubocop (~> 1.41)
+    rubocop-performance (1.16.0)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    rubocop-rails (2.17.4)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.33.0, < 2.0)
+    rubocop-rspec (2.18.1)
+      rubocop (~> 1.33)
+      rubocop-capybara (~> 2.17)
+    ruby-progressbar (1.11.0)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+    unicode-display_width (2.4.2)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  f_http_client!
+  f_rubocop!
+  f_service!
+  pry
+  pry-nav
+  rake (~> 13.0)
+  rspec (~> 3.0)
+  simplecov
+  webmock
+
+BUNDLED WITH
+   2.4.6

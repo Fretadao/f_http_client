@@ -1,0 +1,5 @@
+inherit_gem:
+    f_rubocop: default.yml
+
+Style/ClassAndModuleChildren:
+  Enabled: false
