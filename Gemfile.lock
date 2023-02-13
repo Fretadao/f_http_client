@@ -19,6 +19,7 @@ PATH
   remote: .
   specs:
     f_http_client (0.1.0)
+      activesupport
       httparty
 
 GEM
