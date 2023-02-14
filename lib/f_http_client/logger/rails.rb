@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'forwardable'
-
 module FHTTPClient
   module Logger
     # Logging with Rails logger
