@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module FHttpClient
-  class Cache
-    module Key
+  module Cache
+    class Key
       def self.generate(*args)
         params = args.extract_options!
         klass = args.first.to_s
