@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe FHttpClient do
+RSpec.describe FHTTPClient do
   it 'has a version number' do
-    expect(FHttpClient::VERSION).not_to be_nil
+    expect(FHTTPClient::VERSION).not_to be_nil
   end
 end

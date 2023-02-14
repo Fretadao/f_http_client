@@ -6,8 +6,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'f_rubocop', github: 'Fretadao/f_rubocop', require: false
   gem 'f_service', github: 'Fretadao/f_service', branch: 'bv-add-multiple-failures'
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rspec'
 end
 
 group :test do

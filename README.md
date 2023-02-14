@@ -1,4 +1,4 @@
-# FHttpClient
+# FHTTPClient
 
 Provides a basic skeleton for creating an HTTP client using the FService architecture.
 

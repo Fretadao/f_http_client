@@ -1,46 +1,42 @@
-name: "Development CI/CD"
+name: Development CI/CD
 
-on: pull_request
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
 
 jobs:
-  linters:
-    runs-on: self-hosted
+  build:
+    runs-on: ubuntu-latest
+    name: Ruby ${{ matrix.ruby }}
+    strategy:
+      matrix:
+        ruby:
+          - '3.0.5'
+          - '3.1.3'
+          - '3.2.1'
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@0a29871fe2b0200a17a4497bae54fe5df0d973aa # v1.115.3
-        with:
-          ruby-version: 3.0.3
-          bundler-cache: true
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
 
-      # Add or replace any other lints here
-      - name: Lint Ruby files
-        run: bin/rubocop -c .rubocop.yml --parallel
+    # Add or replace any other lints here
+    - name: Lint Ruby files
+      run: bundle exec rubocop -c .rubocop.yml --parallel
 
-  tests:
-    runs-on: self-hosted
-    env:
-      RAILS_ENV: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Run Rspec
+      run: bundle exec rspec -fp
 
-      # Add or replace dependency steps here
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@0a29871fe2b0200a17a4497bae54fe5df0d973aa # v1.115.3
-        with:
-          ruby-version: 3.0.3
-          bundler-cache: true
-
-      # Add or replace test runners here
-      - name: Run tests
-        run: bin/rspec -fp
-
-      - name: Archive coverage
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage
-          retention-days: 30
+    - name: Archive coverage
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage
+        retention-days: 30
