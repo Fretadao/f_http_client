@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe FHttpClient::Cache::Null do
+RSpec.describe FHTTPClient::Cache::Null do
   describe '.fetch' do
     subject(:cache) { described_class }
 

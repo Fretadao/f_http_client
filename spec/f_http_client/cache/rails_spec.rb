@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe FHttpClient::Cache::Rails do
+RSpec.describe FHTTPClient::Cache::Rails do
   describe '.fetch' do
     subject(:cache) { described_class }
 
@@ -12,7 +12,7 @@ RSpec.describe FHttpClient::Cache::Rails do
 
       it 'raises rails not defined exception' do
         expect { cache.fetch(cache_name, options, &block) }
-          .to raise_error(FHttpClient::Cache::RailsNotDefined)
+          .to raise_error(FHTTPClient::Cache::RailsNotDefined)
       end
     end
 

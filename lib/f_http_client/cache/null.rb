@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FHttpClient
+module FHTTPClient
   module Cache
     class Null
       class << self

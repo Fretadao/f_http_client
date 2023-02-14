@@ -4,7 +4,7 @@ require_relative 'lib/f_http_client/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'f_http_client'
-  spec.version = FHttpClient::VERSION
+  spec.version = FHTTPClient::VERSION
   spec.authors = ['Fretadao Tech Team']
   spec.email = ['tech@fretadao.com.br']
 

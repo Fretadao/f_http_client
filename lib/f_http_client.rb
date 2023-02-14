@@ -11,7 +11,7 @@ require 'f_http_client/cache/key'
 require 'f_http_client/cache/null'
 require 'f_http_client/cache/rails'
 
-module FHttpClient
+module FHTTPClient
   class Error < StandardError; end
   # Your code goes here...
 end

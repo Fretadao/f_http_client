@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe FHttpClient::Cache::Key do
+RSpec.describe FHTTPClient::Cache::Key do
   describe '.generate' do
     context 'when no arg is provided' do
       it { expect(described_class.generate).to be_empty }

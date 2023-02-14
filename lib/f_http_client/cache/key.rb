@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FHttpClient
+module FHTTPClient
   module Cache
     class Key
       def self.generate(*args)

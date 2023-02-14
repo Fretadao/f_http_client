@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe FHttpClient::Cache::HttpResponseAnalyzer do
+RSpec.describe FHTTPClient::Cache::HTTPResponseAnalyzer do
   describe '.not_cacheable_responses' do
     subject(:http_response_analyzer) { described_class }
 

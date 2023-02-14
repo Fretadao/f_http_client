@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module FHttpClient
+module FHTTPClient
   module Cache
-    module HttpResponseAnalyzer
+    module HTTPResponseAnalyzer
       attr_reader :response
 
       NOT_CACHEABLE_RESPONSES = %i[
