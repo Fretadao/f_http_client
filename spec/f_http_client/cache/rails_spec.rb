@@ -17,8 +17,10 @@ RSpec.describe FHTTPClient::Cache::Rails do
     end
 
     context 'when rails is defined' do
-      let(:rails_cache) { instance_spy('Rails::Cache') }
-      let(:rails_spy) { class_spy('Rails') }
+      let(:rails_class) { 'Rails' }
+      let(:rails_cache_class) { 'Rails::Cache' }
+      let(:rails_cache) { instance_spy(rails_cache_class) }
+      let(:rails_spy) { class_spy(rails_class) }
 
       before do
         stub_const('Rails', rails_spy)
