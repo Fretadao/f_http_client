@@ -38,27 +38,49 @@ RSpec.describe FHTTPClient::Cache::Rails do
         end
       end
 
-      context 'when result can be cached' do
+      context 'and the result is not cached yet' do
         let(:cached_value) { nil }
-        let(:is_odd) { ->(number) { number.odd? } }
-        let(:options) { { expires_in: 3600, skip_if: is_odd } }
-        let(:block) { -> { 10 * 10 } }
 
-        it 'caches the value', :aggregate_failures do
-          expect(cache.fetch(cache_name, options, &block)).to eq(100)
-          expect(rails_cache).to have_received(:write).with(cache_name, 100, options)
+        context 'but no block is given to method' do
+          it 'returns nil', :aggregate_failures do
+            expect(cache.fetch(cache_name)).to be_nil
+            expect(rails_cache).not_to have_received(:write)
+          end
         end
-      end
 
-      context 'when result can not be cached' do
-        let(:cached_value) { nil }
-        let(:is_odd) { ->(number) { number.odd? } }
-        let(:options) { { expires_in: 3600, skip_if: is_odd } }
-        let(:block) { -> { 3 * 5 } }
+        context 'and a block is provided' do
+          let(:block) { -> { 10 * 10 } }
 
-        it 'does not cache the value', :aggregate_failures do
-          expect(cache.fetch(cache_name, options, &block)).to eq(15)
-          expect(rails_cache).not_to have_received(:write)
+          context 'and no skip_if option is provided' do
+            let(:options) { { expires_in: 3600 } }
+
+            it 'caches the value', :aggregate_failures do
+              expect(cache.fetch(cache_name, options, &block)).to eq(100)
+              expect(rails_cache).to have_received(:write).with(cache_name, 100, options)
+            end
+          end
+
+          context 'and skip if option is provided' do
+            context 'but result can not be cached' do
+              let(:is_even) { ->(number) { number.even? } }
+              let(:options) { { expires_in: 3600, skip_if: is_even } }
+
+              it 'does not cache the value', :aggregate_failures do
+                expect(cache.fetch(cache_name, options, &block)).to eq(100)
+                expect(rails_cache).not_to have_received(:write)
+              end
+            end
+
+            context 'and result can be cached' do
+              let(:is_odd) { ->(number) { number.odd? } }
+              let(:options) { { expires_in: 3600, skip_if: is_odd } }
+
+              it 'caches the value', :aggregate_failures do
+                expect(cache.fetch(cache_name, options, &block)).to eq(100)
+                expect(rails_cache).to have_received(:write).with(cache_name, 100, options)
+              end
+            end
+          end
         end
       end
     end
