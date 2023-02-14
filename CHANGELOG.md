@@ -4,3 +4,4 @@
 
 - Initial release
 - Add Caching strategies;
+- Add Logging strategies;
