@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/Fretadao/f_rubocop.git
-  revision: bd4ea27ab4ec76e33a1983b76b7c503393ed66c6
-  specs:
-    f_rubocop (0.3.0)
-      rubocop (~> 1.3)
-      rubocop-performance (~> 1.14)
-      rubocop-rails (~> 2.15)
-      rubocop-rspec (~> 2.12)
-
-GIT
   remote: https://github.com/Fretadao/f_service.git
   revision: 2dc9282f105655ae45c9cdeca1a2af173f20f254
   branch: bv-add-multiple-failures
@@ -59,7 +49,6 @@ GEM
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
     public_suffix (5.0.1)
-    rack (3.0.4.1)
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.7.0)
@@ -94,10 +83,6 @@ GEM
     rubocop-performance (1.16.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.17.4)
-      activesupport (>= 4.2.0)
-      rack (>= 1.1)
-      rubocop (>= 1.33.0, < 2.0)
     rubocop-rspec (2.18.1)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
@@ -121,12 +106,14 @@ PLATFORMS
 
 DEPENDENCIES
   f_http_client!
-  f_rubocop!
   f_service!
   pry
   pry-nav
   rake (~> 13.0)
   rspec (~> 3.0)
+  rubocop
+  rubocop-performance
+  rubocop-rspec
   simplecov
   webmock
 
