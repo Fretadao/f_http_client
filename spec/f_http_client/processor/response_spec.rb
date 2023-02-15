@@ -9,7 +9,8 @@ RSpec.describe FHTTPClient::Processor::Response do
         '/test',
         base_uri: 'localhost:3000',
         query: { id: 1 },
-        headers: { content_type: 'application/json' }
+        headers: { content_type: 'application/json' },
+        parser: FHTTPClient::Parser::Response
       )
     end
 
@@ -38,7 +39,7 @@ RSpec.describe FHTTPClient::Processor::Response do
           .and_value(
             {
               headers: { 'content-type' => ['application/json'] },
-              body: { 'user' => { 'name' => 'Joe Silva', 'email' => 'email@teste.com' } }
+              body: body
             }
           )
       end
@@ -54,7 +55,7 @@ RSpec.describe FHTTPClient::Processor::Response do
           .and_error(
             {
               headers: { 'content-type' => ['application/json'] },
-              body: { 'errors' => { 'user' => 'not found' } }
+              body: body
             }
           )
       end

@@ -22,11 +22,11 @@ module FHTTPClient
       extend Forwardable
 
       STATUS_FAMILIES = {
-        100..199 => :informational,
         200..299 => :successful,
-        300..399 => :redirection,
         400..499 => :client_error,
-        500..599 => :server_error
+        500..599 => :server_error,
+        300..399 => :redirection,
+        100..199 => :informational
       }.freeze
 
       private_constant :STATUS_FAMILIES
