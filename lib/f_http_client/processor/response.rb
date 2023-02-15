@@ -18,8 +18,10 @@ module FHTTPClient
     #
     # proccess
     # # => "A conflict happened! {}"
-    class Response < FService::Base
+    class Response < FHTTPClient::Service
       extend Forwardable
+
+      attribute :response
 
       STATUS_FAMILIES = {
         200..299 => :successful,
@@ -30,10 +32,6 @@ module FHTTPClient
       }.freeze
 
       private_constant :STATUS_FAMILIES
-
-      def initialize(response:)
-        @response = response
-      end
 
       def run
         success? ? success_response : failure_response
