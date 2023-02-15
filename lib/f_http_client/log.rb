@@ -13,7 +13,9 @@ module FHTTPClient
   #   FHTTPClient::Log.(message: { name: 'Bruno' }.to_json, tags: ['Response'])
   #   FHTTPClient::Log.(message: { response: { name: 'Bruno' } }.to_json, level: :warn)
   class Log < FHTTPClient::Service
-    attributes :message, level: :info, tags: []
+    option :message
+    option :level, default: -> { :info }
+    option :tags, default: -> { [] }
 
     def run
       FHTTPClient.logger.tagged(*Array(tags)).public_send(level, message)

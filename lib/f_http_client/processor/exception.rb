@@ -16,7 +16,7 @@ module FHTTPClient
     # proccess
     # # => 'The server has been refused the connection.'
     class Exception < FHTTPClient::Service
-      attribute :error
+      option :error
 
       def run
         Failure(error_name, :exception, data: error)

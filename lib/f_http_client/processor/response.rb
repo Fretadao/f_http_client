@@ -21,7 +21,7 @@ module FHTTPClient
     class Response < FHTTPClient::Service
       extend Forwardable
 
-      attribute :response
+      option :response
 
       STATUS_FAMILIES = {
         200..299 => :successful,

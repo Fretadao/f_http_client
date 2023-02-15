@@ -5,7 +5,9 @@ module FHTTPClient
   #
   # @example
   #   class User::Create < FHTTPClient::Service
-  #     attributes :name, :age, email: 'guest@user.com'
+  #     option :name
+  #     option :age
+  #     option :email, default: -> { 'guest@user.com' }
   #
   #     def run
   #       Success(:created, data: "Hello #{name}! Your email is: #{email}")
@@ -15,6 +17,6 @@ module FHTTPClient
   #   User.(name: 'Matheus', age: 22)
   #   => #<FService::Result::Success:0x0000557fae615ea8 @handled=false, @matching_types=[], @types=[:created], @value="Hello Bruno! Your email is: guest@user.com">
   class Service < FService::Base
-    extend EzAttributes
+    extend Dry::Initializer
   end
 end

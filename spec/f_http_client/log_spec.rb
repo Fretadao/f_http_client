@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe FHTTPClient::Log do
-  describe '.run' do
+  describe '#run' do
     let(:logger) { instance_spy(FHTTPClient::Logger::Null, :logger) }
 
     before { allow(FHTTPClient).to receive(:logger).and_return(logger) }

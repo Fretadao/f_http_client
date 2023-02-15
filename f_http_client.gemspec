@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'dry-configurable'
-  spec.add_runtime_dependency 'ez_attributes'
+  spec.add_runtime_dependency 'dry-initializer'
   spec.add_runtime_dependency 'httparty'
 
   # For more information and examples about making a new gem, check out our

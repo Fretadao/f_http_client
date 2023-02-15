@@ -4,21 +4,27 @@ RSpec.describe FHTTPClient::Service do
   describe '.initialize' do
     subject(:service_class) do
       Class.new(described_class) do
-        attributes :name, :age, email: 'guest@user.com'
+        option :name
+        option :age
+        option :email, default: -> { 'guest@user.com' }
       end
     end
 
     context 'when a required argument is missing' do
       it 'requires this argument' do
-        expect { service_class.new(name: 'Bruno') }.to raise_error(ArgumentError, 'missing keyword: :age')
+        expect { service_class.new(name: 'Bruno') }
+          .to raise_error(KeyError, a_string_ending_with("option 'age' is required"))
       end
     end
 
     context 'when all required attributes are informed' do
       context 'and an unknown attribute is informed' do
-        it 'points this argument' do
-          expect { service_class.new(name: 'Bruno', surname: 'Vicenzo', age: 25) }
-            .to raise_error(ArgumentError, 'unknown keyword: :surname')
+        it 'ignores this unknown attribute', :aggregate_failures do # See: https://dry-rb.org/gems/dry-initializer/3.0/tolerance-to-unknown-arguments/
+          service = service_class.new(name: 'Bruno', surname: 'Vicenzo', age: 25)
+
+          expect(service.name).to eq('Bruno')
+          expect(service.age).to eq(25)
+          expect(service).not_to respond_to(:surname)
         end
       end
 

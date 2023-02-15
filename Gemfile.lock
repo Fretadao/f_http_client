@@ -11,7 +11,7 @@ PATH
     f_http_client (0.1.0)
       activesupport
       dry-configurable
-      ez_attributes
+      dry-initializer
       httparty
 
 GEM
@@ -37,7 +37,7 @@ GEM
     dry-core (1.0.0)
       concurrent-ruby (~> 1.0)
       zeitwerk (~> 2.6)
-    ez_attributes (0.3.0)
+    dry-initializer (3.1.1)
     hashdiff (1.0.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
