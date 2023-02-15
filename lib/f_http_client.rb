@@ -11,6 +11,7 @@ require 'httparty'
 require 'f_service'
 
 require 'f_http_client/service'
+require 'f_http_client/log'
 require 'f_http_client/cache/http_response_analizer'
 require 'f_http_client/cache/key'
 require 'f_http_client/cache/null'
