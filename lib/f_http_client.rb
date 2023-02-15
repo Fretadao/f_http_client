@@ -21,6 +21,7 @@ require 'f_http_client/logger/null'
 require 'f_http_client/logger/rails'
 
 require 'f_http_client/parser/response'
+require 'f_http_client/processor/exception'
 require 'f_http_client/processor/response'
 
 module FHTTPClient

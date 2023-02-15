@@ -5,3 +5,5 @@
 - Initial release
 - Add Caching strategies;
 - Add Logging strategies;
+- Add Custom parse for JSON responses;
+- Add Response and Exception processors;
