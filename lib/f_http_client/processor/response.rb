@@ -34,7 +34,7 @@ module FHTTPClient
       private_constant :STATUS_FAMILIES
 
       def run
-        success? ? success_response : failure_response
+        log_data.and_then { success? ? success_response : failure_response }
       end
 
       private
@@ -101,6 +101,29 @@ module FHTTPClient
       # # => "Net:HTTPBadRequest"
       def response_class
         Net::HTTPResponse::CODE_TO_OBJ[code.to_s].to_s
+      end
+
+      def log_data
+        FHTTPClient::Log.(
+          tags: 'EXTERNAL REQUEST',
+          message: { request: request_log_data, response: response_log_data }.to_json
+        )
+      end
+
+      def request_log_data
+        request = response.request
+        request_options = request.options
+
+        {
+          method: request.http_method.name.split('::').last.upcase,
+          path: request.uri.path,
+          querystring: Addressable::URI.parse(request.uri.query).query_values,
+          body: request_options[:body]
+        }.compact_blank
+      end
+
+      def response_log_data
+        { code: code, human_code: message, headers: headers, body: parsed_response }.compact_blank
       end
     end
   end

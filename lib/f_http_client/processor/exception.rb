@@ -19,7 +19,7 @@ module FHTTPClient
       option :error
 
       def run
-        Failure(error_name, :exception, data: error)
+        log_data.and_then { Failure(error_name, :exception, data: error) }
       end
 
       private
@@ -33,6 +33,13 @@ module FHTTPClient
         else
           :uncaught_error
         end
+      end
+
+      def log_data
+        FHTTPClient::Log.(
+          tags: 'EXTERNAL REQUEST',
+          message: { error: error.class.to_s, message: error.message, backtrace: error.backtrace.join(', ') }.to_json
+        )
       end
     end
   end
