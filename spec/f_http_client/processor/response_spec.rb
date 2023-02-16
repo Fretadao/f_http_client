@@ -31,7 +31,12 @@ RSpec.describe FHTTPClient::Processor::Response do
       it 'returns a Fservice failure' do
         expect(response_processor)
           .to have_failed_with(:continue, :informational)
-          .and_error({ headers: { 'content-type' => ['application/json'] }, body: {} })
+          .and_error(
+            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
+              { 'content-type' => ['application/json'] },
+              {}
+            )
+          )
       end
     end
 
@@ -48,10 +53,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(response_processor)
           .to have_succeed_with(:created, :successful)
           .and_value(
-            {
-              headers: { 'content-type' => ['application/json'] },
-              body: body
-            }
+            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
+              { 'content-type' => ['application/json'] },
+              body
+            )
           )
       end
     end
@@ -69,10 +74,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(response_processor)
           .to have_failed_with(:not_found, :client_error)
           .and_error(
-            {
-              headers: { 'content-type' => ['application/json'] },
-              body: body
-            }
+            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
+              { 'content-type' => ['application/json'] },
+              body
+            )
           )
       end
     end
@@ -89,7 +94,12 @@ RSpec.describe FHTTPClient::Processor::Response do
       it 'returns a Fservice failure' do
         expect(response_processor)
           .to have_failed_with(:bad_gateway, :server_error)
-          .and_error({ headers: { 'content-type' => ['application/json'] }, body: {} })
+          .and_error(
+            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
+              { 'content-type' => ['application/json'] },
+              {}
+            )
+          )
       end
     end
 
@@ -105,7 +115,12 @@ RSpec.describe FHTTPClient::Processor::Response do
       it 'returns a Fservice failure' do
         expect(response_processor)
           .to have_failed_with(:unknown_type, :unknown_family)
-          .and_error({ headers: { 'content-type' => ['application/json'] }, body: {} })
+          .and_error(
+            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
+              { 'content-type' => ['application/json'] },
+              {}
+            )
+          )
       end
     end
   end

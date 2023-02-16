@@ -23,6 +23,7 @@ module FHTTPClient
 
       option :response
 
+      PROCESSED_RESPONSE_CLASS = Struct.new('ProcessedResponse', :headers, :body)
       STATUS_FAMILIES = {
         200..299 => :successful,
         400..499 => :client_error,
@@ -54,7 +55,7 @@ module FHTTPClient
       # Ex: when request is processed:
       # { headers: { "content-type" => ["application/json"] }, body: { name: 'Joe' } }
       def processed_response
-        { headers: headers, body: parsed_response }
+        PROCESSED_RESPONSE_CLASS.new(headers, parsed_response)
       end
 
       # Private:
