@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/Fretadao/f_service.git
-  revision: 2dc9282f105655ae45c9cdeca1a2af173f20f254
+  revision: 55d299cf0492d81dbf9993f519b07c80c8176771
   branch: bv-add-multiple-failures
   specs:
     f_service (0.2.0)

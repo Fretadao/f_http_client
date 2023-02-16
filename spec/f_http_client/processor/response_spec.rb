@@ -28,15 +28,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(FHTTPClient::Log).to have_received(:call)
       end
 
-      it 'returns a Fservice failure' do
-        expect(response_processor)
-          .to have_failed_with(:continue, :informational)
-          .and_error(
-            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
-              { 'content-type' => ['application/json'] },
-              {}
-            )
-          )
+      it 'returns a Fservice failure', :aggregate_failures do
+        processed_response = response_processor
+        expect(processed_response).to have_failed_with(:continue, :informational)
+        expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
       end
     end
 
@@ -49,15 +44,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(FHTTPClient::Log).to have_received(:call)
       end
 
-      it 'returns a Fservice success' do
-        expect(response_processor)
-          .to have_succeed_with(:created, :successful)
-          .and_value(
-            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
-              { 'content-type' => ['application/json'] },
-              body
-            )
-          )
+      it 'returns a Fservice success', :aggregate_failures do
+        processed_response = response_processor
+        expect(processed_response).to have_succeed_with(:created, :successful)
+        expect(processed_response.value).to be_an_instance_of(HTTParty::Response)
       end
     end
 
@@ -70,15 +60,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(FHTTPClient::Log).to have_received(:call)
       end
 
-      it 'returns a Fservice failure' do
-        expect(response_processor)
-          .to have_failed_with(:not_found, :client_error)
-          .and_error(
-            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
-              { 'content-type' => ['application/json'] },
-              body
-            )
-          )
+      it 'returns a Fservice failure', :aggregate_failures do
+        processed_response = response_processor
+        expect(processed_response).to have_failed_with(:not_found, :client_error)
+        expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
       end
     end
 
@@ -91,15 +76,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(FHTTPClient::Log).to have_received(:call)
       end
 
-      it 'returns a Fservice failure' do
-        expect(response_processor)
-          .to have_failed_with(:bad_gateway, :server_error)
-          .and_error(
-            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
-              { 'content-type' => ['application/json'] },
-              {}
-            )
-          )
+      it 'returns a Fservice failure', :aggregate_failures do
+        processed_response = response_processor
+        expect(processed_response).to have_failed_with(:bad_gateway, :server_error)
+        expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
       end
     end
 
@@ -112,15 +92,10 @@ RSpec.describe FHTTPClient::Processor::Response do
         expect(FHTTPClient::Log).to have_received(:call)
       end
 
-      it 'returns a Fservice failure' do
-        expect(response_processor)
-          .to have_failed_with(:unknown_type, :unknown_family)
-          .and_error(
-            FHTTPClient::Processor::Response::PROCESSED_RESPONSE_CLASS.new(
-              { 'content-type' => ['application/json'] },
-              {}
-            )
-          )
+      it 'returns a Fservice failure', :aggregate_failures do
+        processed_response = response_processor
+        expect(processed_response).to have_failed_with(:unknown_type, :unknown_family)
+        expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
       end
     end
   end
