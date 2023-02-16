@@ -117,7 +117,7 @@ module FHTTPClient
         {
           method: request.http_method.name.split('::').last.upcase,
           path: request.uri.path,
-          querystring: Addressable::URI.parse(request.uri.query).query_values,
+          querystring: Addressable::URI.parse(request.uri.query)&.query_values,
           body: request_options[:body]
         }.compact_blank
       end
