@@ -62,12 +62,12 @@ module FHTTPClient
       raise NotImplementedError, 'Clients must implement #make_request'
     end
 
-    def path
-      raise NotImplementedError, 'Clients must implement #path'
+    def path_template
+      raise NotImplementedError, 'Clients must implement #path_template'
     end
 
     def formatted_path
-      format(path, path_params)
+      format(path_template, path_params)
     end
 
     def cache_key

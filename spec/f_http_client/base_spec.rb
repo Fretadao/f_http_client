@@ -8,16 +8,16 @@ RSpec.describe FHTTPClient::Base do
       it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #make_request' }
     end
 
-    describe '#path' do
+    describe '#path_template' do
       subject(:client) do
         Class.new(described_class) do
           def make_request
-            self.class.get(path)
+            self.class.get(formatted_path)
           end
         end
       end
 
-      it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #path' }
+      it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #path_template' }
     end
   end
 
@@ -126,7 +126,7 @@ RSpec.describe FHTTPClient::Base do
           self.class.get(formatted_path, headers: headers)
         end
 
-        def path
+        def path_template
           '/posts/%<id>s'
         end
 

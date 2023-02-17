@@ -38,7 +38,7 @@ module Post
       self.class.get(formatted_path, headers: headers)
     end
 
-    def path
+    def path_template
       '/posts/%<id>s'
     end
 
