@@ -31,3 +31,5 @@ module FHTTPClient
   class Error < StandardError; end
   # Your code goes here...
 end
+
+require 'f_http_client/base'
