@@ -74,6 +74,14 @@ module StubRequestsHelper
         headers: { 'Content-Type' => 'application/json' }
       )
   end
+
+  def stub_get_timeout(options = {}, to:)
+    allow_get_request(options, to: to).to_timeout
+  end
+
+  def stub_get_error(options = {}, to:, error:, message: '')
+    allow_get_request(options, to: to).to_raise(error.new(message))
+  end
 end
 
 RSpec.configure do |config|
