@@ -59,10 +59,10 @@ RSpec.describe FHTTPClient do
         end
 
         context 'when expires_in is provided' do
-          before { described_class.configure { |conf| conf.cache.expires_in = 3600 } }
+          before { described_class.configure { |conf| conf.cache.expires_in = 3_600 } }
 
           it 'sets that expires_in config' do
-            expect(config.cache.expires_in).to eq(3600)
+            expect(config.cache.expires_in).to eq(3_600)
           end
         end
       end

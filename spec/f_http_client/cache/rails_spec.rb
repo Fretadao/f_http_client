@@ -7,7 +7,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
     let(:cache_name) { 'abc-123' }
 
     context 'when rails is not defined' do
-      let(:options) { { expires_in: 3600 } }
+      let(:options) { { expires_in: 3_600 } }
       let(:block) { -> { 10 * 10 } }
 
       it 'raises rails not defined exception' do
@@ -29,7 +29,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
       end
 
       context 'when result is cached' do
-        let(:options) { { expires_in: 3600 } }
+        let(:options) { { expires_in: 3_600 } }
         let(:block) { -> { 10 * 10 } }
         let(:cached_value) { 'cached value' }
 
@@ -52,7 +52,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
           let(:block) { -> { 10 * 10 } }
 
           context 'and no skip_if option is provided' do
-            let(:options) { { expires_in: 3600 } }
+            let(:options) { { expires_in: 3_600 } }
 
             it 'caches the value', :aggregate_failures do
               expect(cache.fetch(cache_name, options, &block)).to eq(100)
@@ -63,7 +63,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
           context 'and skip if option is provided' do
             context 'but result can not be cached' do
               let(:is_even) { ->(number) { number.even? } }
-              let(:options) { { expires_in: 3600, skip_if: is_even } }
+              let(:options) { { expires_in: 3_600, skip_if: is_even } }
 
               it 'does not cache the value', :aggregate_failures do
                 expect(cache.fetch(cache_name, options, &block)).to eq(100)
@@ -73,7 +73,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
 
             context 'and result can be cached' do
               let(:is_odd) { ->(number) { number.odd? } }
-              let(:options) { { expires_in: 3600, skip_if: is_odd } }
+              let(:options) { { expires_in: 3_600, skip_if: is_odd } }
 
               it 'caches the value', :aggregate_failures do
                 expect(cache.fetch(cache_name, options, &block)).to eq(100)

@@ -105,12 +105,12 @@ RSpec.describe FHTTPClient::Base do
     context 'when a cache_expires_in is informed' do
       subject(:client) do
         Class.new(described_class) do
-          cache_expires_in 3600
+          cache_expires_in 3_600
         end
       end
 
       it 'changes to the new value' do
-        expect(client.cache_expires_in).to eq(3600)
+        expect(client.cache_expires_in).to eq(3_600)
       end
     end
   end

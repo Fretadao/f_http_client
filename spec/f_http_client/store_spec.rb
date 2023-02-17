@@ -46,7 +46,7 @@ RSpec.describe FHTTPClient::Store do
         end
 
         context 'and expires_in option is informed' do
-          let(:expires_in) { 3600 }
+          let(:expires_in) { 3_600 }
 
           it 'calls only required attributes to service', :aggregate_failures do
             service_result = described_class.(
@@ -101,7 +101,7 @@ RSpec.describe FHTTPClient::Store do
       end
 
       context 'and expires_in option is informed' do
-        let(:expires_in) { 3600 }
+        let(:expires_in) { 3_600 }
 
         it 'calls only required attributes to service', :aggregate_failures do
           service_result = described_class.(
