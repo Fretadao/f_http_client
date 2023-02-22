@@ -20,7 +20,6 @@ The gem allow the following configuration
     - null (default): the client does not log anything;
     - rails: the Rails.cache will be used to perform caching;
 
-
 ## Usage
 
 Could create a class:

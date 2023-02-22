@@ -11,6 +11,7 @@ require 'forwardable'
 require 'httparty'
 require 'f_service'
 
+require 'f_http_client/configuration'
 require 'f_http_client/service'
 require 'f_http_client/log'
 require 'f_http_client/store'
@@ -28,25 +29,41 @@ require 'f_http_client/processor/exception'
 require 'f_http_client/processor/response'
 
 module FHTTPClient
-  extend Dry::Configurable
+  module ClassMethods
+    def configuration_class
+      @configuration_class ||= 'FHTTPClient::Configuration'
+    end
 
-  setting :base_uri
-  setting :log_strategy, default: :null
-  setting :cache do
-    setting :strategy, default: :null
-    setting :expires_in, default: 0
+    def configuration
+      @configuration ||= Object.const_get(configuration_class)
+    end
+
+    def configure(&configuration)
+      configuration.configure(&configuration)
+    end
+
+    def config
+      configuration.config
+    end
+
+    def logger
+      @logger ||= case config.log_strategy
+                  when :rails
+                    FHTTPClient::Logger::Rails.new
+                  when :null
+                    FHTTPClient::Logger::Null.new
+                  else
+                    FHTTPClient::Logger::Default.new
+                  end
+    end
   end
 
-  def self.logger
-    @logger ||= case config.log_strategy
-                when :rails
-                  FHTTPClient::Logger::Rails.new
-                when :null
-                  FHTTPClient::Logger::Null.new
-                else
-                  FHTTPClient::Logger::Default.new
-                end
+  extend ClassMethods
+
+  def self.extended(base)
+    base.extend(ClassMethods)
   end
 end
 
 require 'f_http_client/base'
+
