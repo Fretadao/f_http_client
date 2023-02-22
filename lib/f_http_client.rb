@@ -35,7 +35,7 @@ module FHTTPClient
     end
 
     def configuration
-      @configuration ||= Object.const_get(configuration_class)
+      @configuration ||= const_get(configuration_class)
     end
 
     def configure(&configuration)
@@ -66,4 +66,3 @@ module FHTTPClient
 end
 
 require 'f_http_client/base'
-
