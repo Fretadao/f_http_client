@@ -31,6 +31,9 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_runtime_dependency 'activesupport'
+  spec.add_runtime_dependency 'addressable'
+  spec.add_runtime_dependency 'dry-configurable'
+  spec.add_runtime_dependency 'dry-initializer'
   spec.add_runtime_dependency 'httparty'
 
   # For more information and examples about making a new gem, check out our

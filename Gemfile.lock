@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/Fretadao/f_service.git
-  revision: 2dc9282f105655ae45c9cdeca1a2af173f20f254
-  branch: bv-add-multiple-failures
+  revision: 22d3e1c8bd4aa83b14f34b1af19aa4cd22b8ad8b
+  branch: master
   specs:
     f_service (0.2.0)
 
@@ -10,6 +10,9 @@ PATH
   specs:
     f_http_client (0.1.0)
       activesupport
+      addressable
+      dry-configurable
+      dry-initializer
       httparty
 
 GEM
@@ -29,6 +32,13 @@ GEM
       rexml
     diff-lcs (1.5.0)
     docile (1.4.0)
+    dry-configurable (1.0.1)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-core (1.0.0)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
+    dry-initializer (3.1.1)
     hashdiff (1.0.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
@@ -78,7 +88,7 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.26.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.17.0)
+    rubocop-capybara (2.17.1)
       rubocop (~> 1.41)
     rubocop-performance (1.16.0)
       rubocop (>= 1.7.0, < 2.0)
@@ -100,6 +110,7 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    zeitwerk (2.6.7)
 
 PLATFORMS
   x86_64-linux
