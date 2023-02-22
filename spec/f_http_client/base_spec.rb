@@ -2,12 +2,6 @@
 
 RSpec.describe FHTTPClient::Base do
   describe 'not implemented methods' do
-    describe '#make_request' do
-      subject(:client) { Class.new(described_class) }
-
-      it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #make_request' }
-    end
-
     describe '#path_template' do
       subject(:client) do
         Class.new(described_class) do
@@ -19,6 +13,19 @@ RSpec.describe FHTTPClient::Base do
 
       it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #path_template' }
     end
+
+    describe '#make_request' do
+      subject(:client) do
+        Class.new(described_class) do
+          def path_template
+            '/users/'
+          end
+        end
+      end
+
+      it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #make_request' }
+    end
+
   end
 
   describe '.parser' do

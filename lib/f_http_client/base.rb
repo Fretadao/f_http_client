@@ -67,12 +67,13 @@ module FHTTPClient
     end
 
     def formatted_path
-      format(path_template, path_params)
+      @formatted_path ||= format(path_template, path_params)
     end
 
     def cache_key
       FHTTPClient::Cache::Key.generate(
         self.class,
+        path: formatted_path,
         headers: headers,
         query: query,
         body: body,
