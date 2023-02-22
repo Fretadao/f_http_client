@@ -25,7 +25,6 @@ RSpec.describe FHTTPClient::Base do
 
       it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #make_request' }
     end
-
   end
 
   describe '.parser' do
