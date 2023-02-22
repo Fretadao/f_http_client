@@ -38,8 +38,8 @@ module FHTTPClient
       @configuration ||= const_get(configuration_class)
     end
 
-    def configure(&configuration)
-      configuration.configure(&configuration)
+    def configure(&conf)
+      conf.present? ? configuration.configure(&conf) : configuration
     end
 
     def config

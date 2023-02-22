@@ -12,6 +12,8 @@ RSpec.describe FHTTPClient do
 
     describe '#base_uri' do
       context 'when no base_uri is provided' do
+        before { described_class.configure }
+
         it { expect(config.base_uri).to be_nil }
       end
 
@@ -26,6 +28,8 @@ RSpec.describe FHTTPClient do
 
     describe '#log_strategy' do
       context 'when no log_strategy is provided' do
+        before { described_class.configure }
+
         it { expect(config.log_strategy).to eq(:null) }
       end
 
@@ -41,6 +45,8 @@ RSpec.describe FHTTPClient do
     describe '#cache' do
       describe '#strategy' do
         context 'when no strategy is provided' do
+          before { described_class.configure }
+
           it { expect(config.cache.strategy).to eq(:null) }
         end
 
@@ -55,6 +61,8 @@ RSpec.describe FHTTPClient do
 
       describe '#expires_in' do
         context 'when no expires_in is provided' do
+          before { described_class.configure }
+
           it { expect(config.cache.expires_in).to be_zero }
         end
 
@@ -108,6 +116,15 @@ RSpec.describe FHTTPClient do
           expect(described_class.logger).to be_an_instance_of(FHTTPClient::Logger::Null)
         end
       end
+    end
+  end
+
+  describe '.extended' do
+    subject(:child_client) { Module.new }
+
+    it 'add class methods to extended module' do
+      expect { child_client.extend(described_class) }
+        .to(change { child_client.respond_to?(:config) }.from(false).to(true))
     end
   end
 end

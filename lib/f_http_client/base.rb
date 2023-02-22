@@ -14,28 +14,24 @@ module FHTTPClient
     option :options, default: -> { {} }
     option :path_params, default: -> { {} }
 
-    def self.base_config
-      FHTTPClient.config
-    end
-
     def self.cache_strategy(strategy = nil)
+      default_options[:cache_strategy] = FHTTPClient.config.cache.strategy if default_options[:cache_strategy].nil?
       return default_options[:cache_strategy] unless strategy
 
       default_options[:cache_strategy] = strategy
     end
 
     def self.cache_expires_in(expires_in = nil)
+      if default_options[:cache_expires_in].nil?
+        default_options[:cache_expires_in] = FHTTPClient.config.cache.expires_in
+      end
+
       return default_options[:cache_expires_in] unless expires_in
 
       default_options[:cache_expires_in] = expires_in
     end
 
-    private_class_method :base_config
-
     parser FHTTPClient::Parser::Response
-    cache_strategy base_config.cache.strategy
-    cache_expires_in base_config.cache.expires_in
-    base_uri base_config.base_uri
 
     def run
       response = make_cached_request.value!
