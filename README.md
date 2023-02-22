@@ -20,6 +20,34 @@ The gem allow the following configuration
     - null (default): the client does not log anything;
     - rails: the Rails.cache will be used to perform caching;
 
+```rb
+
+module BlogClient
+  extend FHTTPClient
+
+  def self.configuration_class
+    'MyClient::ConfigurationClass'
+  end
+end
+
+BlogClient.configure do |config|
+  config.base_uri = 'https://jsonplaceholder.typicode.com'
+end
+
+module BlogClient
+  class Configuration < FHTTPClient::Configuration
+    setting :paginate do
+      setting :enabled, default: true
+      setting :per_page, :20
+    end
+  end
+end
+
+class BlogClient::Base < FHTTPClient::Base
+  cache_expires_in 10.minutes
+end
+```
+
 ## Usage
 
 Could create a class:
@@ -27,38 +55,38 @@ Could create a class:
 ```rb
 # frozen_string_literal: true
 
-module Post
-  class Find < FHTTPClient::Base
-    base_uri 'https://jsonplaceholder.typicode.com'
+module BlogClient
+  module Post
+    class Find < BlogClient::Base
+      private
 
-    private
+      def make_request
+        self.class.get(formatted_path, headers: headers)
+      end
 
-    def make_request
-      self.class.get(formatted_path, headers: headers)
-    end
+      def path_template
+        '/posts/%<id>s'
+      end
 
-    def path_template
-      '/posts/%<id>s'
-    end
-
-    def headers
-      @headers.merge(content_type: 'application/json')
+      def headers
+        @headers.merge(content_type: 'application/json')
+      end
     end
   end
 end
 
-# Post::Find.(path_params: { id: 1 })
+# BlogClient::Post::Find.(path_params: { id: 1 })
 #   .and_then { |response| response.parsed_response }
 #
 # => {
 #     userId: 1,
 #     id: 1,
-#     title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-#     body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+#     title: "How to use a FHTTPCLient Gem",
+#     body: "A great text here."
 #    }
 ```
 
-And usage:
+Result examples:
 
 ```rb
 Person::Create.(name: 'Joe Vicenzo', birthdate: '2000-01-01')
