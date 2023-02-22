@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/Fretadao/f_service.git
-  revision: 55d299cf0492d81dbf9993f519b07c80c8176771
-  branch: bv-add-multiple-failures
+  revision: 22d3e1c8bd4aa83b14f34b1af19aa4cd22b8ad8b
+  branch: master
   specs:
     f_service (0.2.0)
 
@@ -88,7 +88,7 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.26.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.17.0)
+    rubocop-capybara (2.17.1)
       rubocop (~> 1.41)
     rubocop-performance (1.16.0)
       rubocop (>= 1.7.0, < 2.0)
