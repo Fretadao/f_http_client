@@ -28,41 +28,7 @@ require 'f_http_client/parser/response'
 require 'f_http_client/processor/exception'
 require 'f_http_client/processor/response'
 
-module FHTTPClient
-  # module ClassMethods
-  #   def configuration_class
-  #     'FHTTPClient::Configuration'
-  #   end
-  #
-  #   def configuration
-  #     const_get(configuration_class)
-  #   end
-  #
-  #   def configure(&conf)
-  #     conf.present? ? configuration.configure(&conf) : configuration
-  #   end
-  #
-  #   def config
-  #     configuration.config
-  #   end
-  #
-  #   def logger
-  #     @logger ||= case config.log_strategy
-  #                 when :rails
-  #                   FHTTPClient::Logger::Rails.new
-  #                 when :null
-  #                   FHTTPClient::Logger::Null.new
-  #                 else
-  #                   FHTTPClient::Logger::Default.new
-  #                 end
-  #   end
-  # end
-  #
-  # extend ClassMethods
-  #
-  # def self.extended(base)
-  #   base.extend(ClassMethods)
-  # end
-end
-
 require 'f_http_client/base'
+
+module FHTTPClient
+end
