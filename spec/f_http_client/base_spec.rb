@@ -134,70 +134,171 @@ RSpec.describe FHTTPClient::Base do
   end
 
   describe '#run' do
-    subject(:find_post) do
-      Class.new(described_class) do
-        base_uri 'https://api.myblog.com'
+    context 'when base_uri is not provided' do
+      subject(:find_post) do
+        Class.new(described_class) do
+          private
 
-        private
+          def make_request
+            self.class.get(formatted_path, headers: headers)
+          end
 
-        def make_request
-          self.class.get(formatted_path, headers: headers)
+          def path_template
+            '/posts/%<id>s'
+          end
+
+          def headers
+            {
+              content_type: 'application/json'
+            }.merge(@headers)
+          end
+        end
+      end
+
+      it { expect(find_post.()).to have_failed_with(:no_base_uri_configured) }
+    end
+
+    context 'when base_uri is provided from the configuration class' do
+      subject(:find_post) do
+        Class.new(described_class) do
+          private
+
+          def make_request
+            self.class.get(formatted_path, headers: headers)
+          end
+
+          def path_template
+            '/posts/%<id>s'
+          end
+
+          def headers
+            {
+              content_type: 'application/json'
+            }.merge(@headers)
+          end
+        end
+      end
+
+      before do
+        FHTTPClient::Configuration.configure do |config|
+          config.base_uri = 'https://api.myblog.com'
+        end
+      end
+
+      context 'but path_params is not informed' do
+        it { expect { find_post.() }.to raise_error(KeyError, 'key<id> not found') }
+      end
+
+      context 'and path_params is informed' do
+        let(:post_id) { 25 }
+
+        context 'but an unknow error happens' do
+          before do
+            stub_get_error(to: "https://api.myblog.com/posts/#{post_id}", error: RuntimeError, message: 'strange error')
+          end
+
+          it { expect { find_post.(path_params: { id: post_id }) }.to raise_error(RuntimeError, 'strange error') }
         end
 
-        def path_template
-          '/posts/%<id>s'
+        context 'but a connection exception happens' do
+          before { stub_get_timeout(to: "https://api.myblog.com/posts/#{post_id}") }
+
+          it 'fails with info about exception', :aggregate_failures do
+            result = find_post.(path_params: { id: post_id })
+            expect(result).to have_failed_with(:timeout, :exception)
+            expect(result.error).to be_an_instance_of(Net::OpenTimeout)
+          end
         end
 
-        def headers
-          {
-            content_type: 'application/json'
-          }.merge(@headers)
+        context 'and request receives a response' do
+          before do
+            stub_get(
+              to: "https://api.myblog.com/posts/#{post_id}",
+              response_status: response_status,
+              response_body: response_body
+            )
+          end
+
+          context 'but response is an HTTP error' do
+            let(:response_status) { 404 }
+            let(:response_body) { {} }
+
+            it 'fails with not found', :aggregate_failures do
+              processed_response = find_post.(path_params: { id: post_id })
+              expect(processed_response).to have_failed_with(:not_found, :client_error)
+              expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+            end
+          end
         end
       end
     end
 
-    context 'when path_params is not informed' do
-      it { expect { find_post.() }.to raise_error(KeyError, 'key<id> not found') }
-    end
+    context 'when base_uri is provided in current service class' do
+      subject(:find_post) do
+        Class.new(described_class) do
+          base_uri 'https://api.myblog.com'
 
-    context 'when path_params is informed' do
-      let(:post_id) { 25 }
+          private
 
-      context 'but an unknow error happens' do
-        before do
-          stub_get_error(to: "https://api.myblog.com/posts/#{post_id}", error: RuntimeError, message: 'strange error')
-        end
+          def make_request
+            self.class.get(formatted_path, headers: headers)
+          end
 
-        it { expect { find_post.(path_params: { id: post_id }) }.to raise_error(RuntimeError, 'strange error') }
-      end
+          def path_template
+            '/posts/%<id>s'
+          end
 
-      context 'but a connection exception happens' do
-        before { stub_get_timeout(to: "https://api.myblog.com/posts/#{post_id}") }
-
-        it 'fails with info about exception', :aggregate_failures do
-          result = find_post.(path_params: { id: post_id })
-          expect(result).to have_failed_with(:timeout, :exception)
-          expect(result.error).to be_an_instance_of(Net::OpenTimeout)
+          def headers
+            {
+              content_type: 'application/json'
+            }.merge(@headers)
+          end
         end
       end
 
-      context 'and request receives a response' do
-        before do
-          stub_get(
-            to: "https://api.myblog.com/posts/#{post_id}",
-            response_status: response_status,
-            response_body: response_body
-          )
+      context 'but path_params is not informed' do
+        it { expect { find_post.() }.to raise_error(KeyError, 'key<id> not found') }
+      end
+
+      context 'and path_params is informed' do
+        let(:post_id) { 25 }
+
+        context 'but an unknow error happens' do
+          before do
+            stub_get_error(to: "https://api.myblog.com/posts/#{post_id}", error: RuntimeError, message: 'strange error')
+          end
+
+          it { expect { find_post.(path_params: { id: post_id }) }.to raise_error(RuntimeError, 'strange error') }
         end
 
-        context 'when response is an HTTP error' do
-          let(:response_status) { 404 }
-          let(:response_body) { {} }
+        context 'but a connection exception happens' do
+          before { stub_get_timeout(to: "https://api.myblog.com/posts/#{post_id}") }
 
-          it 'fails with not found', :aggregate_failures do
-            processed_response = find_post.(path_params: { id: post_id })
-            expect(processed_response).to have_failed_with(:not_found, :client_error)
-            expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+          it 'fails with info about exception', :aggregate_failures do
+            result = find_post.(path_params: { id: post_id })
+            expect(result).to have_failed_with(:timeout, :exception)
+            expect(result.error).to be_an_instance_of(Net::OpenTimeout)
+          end
+        end
+
+        context 'and request receives a response' do
+          before do
+            stub_get(
+              to: "https://api.myblog.com/posts/#{post_id}",
+              response_status: response_status,
+              response_body: response_body
+            )
+          end
+
+          context 'but response is an HTTP error' do
+            let(:response_status) { 404 }
+            let(:response_body) { {} }
+
+            it 'fails with not found', :aggregate_failures do
+              processed_response = find_post.(path_params: { id: post_id })
+              expect(processed_response).to have_failed_with(:not_found, :client_error)
+              expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+            end
           end
         end
       end
