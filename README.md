@@ -19,21 +19,9 @@ The gem allow the following configuration
   - strategy: Defines which cache strategy will be used;
     - null (default): the client does not log anything;
     - rails: the Rails.cache will be used to perform caching;
+  - expires_in: Deines in seconds how much time the cache will be kept (default 0).
 
 ```rb
-
-module BlogClient
-  extend FHTTPClient
-
-  def self.configuration_class
-    'MyClient::ConfigurationClass'
-  end
-end
-
-BlogClient.configure do |config|
-  config.base_uri = 'https://jsonplaceholder.typicode.com'
-end
-
 module BlogClient
   class Configuration < FHTTPClient::Configuration
     setting :paginate do
@@ -43,7 +31,26 @@ module BlogClient
   end
 end
 
+BlogClient::Configuration.configure do |config|
+  config.base_uri = 'https://jsonplaceholder.typicode.com'
+  confg.log_strategy = :rails
+
+  config.cache do |cache_config|
+    cache_config.strategy :rails
+    cache_config.expires_in 25.minutes
+  end
+
+  congfig.paginate do |pagination_config|
+    pagination_config.per_page = 50
+  end
+end
+
+
 class BlogClient::Base < FHTTPClient::Base
+  def self.config
+    BlogClient::Configuration.config
+  end
+
   cache_expires_in 10.minutes
 end
 ```
