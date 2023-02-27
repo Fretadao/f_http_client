@@ -3,6 +3,7 @@ require:
   - rubocop-performance
 
 AllCops:
+  TargetRubyVersion: 3.0
   SuggestExtensions: false
   NewCops: enable
   CacheRootDirectory: tmp

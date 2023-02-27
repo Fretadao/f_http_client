@@ -22,6 +22,7 @@ module FHTTPClient
       extend Forwardable
 
       option :response
+      option :log_strategy, default: -> { :null }
 
       STATUS_FAMILIES = {
         200..299 => :successful,
@@ -97,8 +98,9 @@ module FHTTPClient
 
       def log_data
         FHTTPClient::Log.(
-          tags: 'EXTERNAL REQUEST',
-          message: { request: request_log_data, response: response_log_data }.to_json
+          message: { request: request_log_data, response: response_log_data }.to_json,
+          strategy: log_strategy,
+          tags: 'EXTERNAL REQUEST'
         )
       end
 

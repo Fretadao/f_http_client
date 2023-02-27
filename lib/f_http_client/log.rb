@@ -10,17 +10,29 @@ module FHTTPClient
   #
   # Example:
   #   FHTTPClient::Log.(message: { name: 'Bruno' }.to_json)
+  #   FHTTPClient::Log.(message: { name: 'Bruno' }.to_json, stragegy: :rails)
   #   FHTTPClient::Log.(message: { name: 'Bruno' }.to_json, tags: ['Response'])
   #   FHTTPClient::Log.(message: { response: { name: 'Bruno' } }.to_json, level: :warn)
   class Log < FHTTPClient::Service
+    LOGGERS = {
+      rails: FHTTPClient::Logger::Rails,
+      default: FHTTPClient::Logger::Default
+    }.freeze
+    private_constant :LOGGERS
+
     option :message
+    option :strategy, default: -> { :null }
     option :level, default: -> { :info }
     option :tags, default: -> { [] }
 
     def run
-      FHTTPClient.logger.tagged(*Array(tags)).public_send(level, message)
+      logger.tagged(*Array(tags)).public_send(level, message)
 
       Success(:logged)
+    end
+
+    def logger
+      @logger ||= LOGGERS.fetch(strategy, FHTTPClient::Logger::Null).new
     end
   end
 end
