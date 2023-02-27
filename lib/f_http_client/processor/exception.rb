@@ -17,6 +17,7 @@ module FHTTPClient
     # # => 'The server has been refused the connection.'
     class Exception < FHTTPClient::Service
       option :error
+      option :log_strategy, default: -> { :null }
 
       def run
         log_data.and_then { Failure(error_name, :exception, data: error) }
@@ -37,8 +38,10 @@ module FHTTPClient
 
       def log_data
         FHTTPClient::Log.(
+          message: { error: error.class.to_s, message: error.message, backtrace: error.backtrace.join(', ') }.to_json,
           tags: 'EXTERNAL REQUEST',
-          message: { error: error.class.to_s, message: error.message, backtrace: error.backtrace.join(', ') }.to_json
+          level: :error,
+          strategy: log_strategy
         )
       end
     end

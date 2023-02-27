@@ -5,6 +5,8 @@ RSpec.describe FHTTPClient::Base do
     describe '#path_template' do
       subject(:client) do
         Class.new(described_class) do
+          base_uri 'localhost:3000'
+
           def make_request
             self.class.get(formatted_path)
           end
@@ -17,6 +19,12 @@ RSpec.describe FHTTPClient::Base do
     describe '#make_request' do
       subject(:client) do
         Class.new(described_class) do
+          base_uri 'localhost:3000'
+
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           def path_template
             '/users/'
           end
@@ -50,6 +58,10 @@ RSpec.describe FHTTPClient::Base do
       subject(:client) do
         Class.new(described_class) do
           cache_strategy nil
+
+          def self.config
+            FHTTPClient::Configuration.config
+          end
         end
       end
 

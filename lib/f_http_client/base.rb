@@ -14,35 +14,49 @@ module FHTTPClient
     option :options, default: -> { {} }
     option :path_params, default: -> { {} }
 
+    parser FHTTPClient::Parser::Response
+
+    def run
+      configure_base_uri.and_then do
+        response = make_cached_request.value!
+
+        FHTTPClient::Processor::Response.(response: response, log_strategy: log_strategy)
+      end
+    rescue StandardError => e
+      FHTTPClient::Processor::Exception.(error: e, log_strategy: log_strategy)
+        .on_failure(:uncaught_error) { raise e }
+    end
+
+    def self.config
+      FHTTPClient::Configuration.config
+    end
+
     def self.cache_strategy(strategy = nil)
-      default_options[:cache_strategy] = FHTTPClient.config.cache.strategy if default_options[:cache_strategy].nil?
+      default_options[:cache_strategy] = config.cache.strategy if default_options[:cache_strategy].nil?
       return default_options[:cache_strategy] unless strategy
 
       default_options[:cache_strategy] = strategy
     end
 
     def self.cache_expires_in(expires_in = nil)
-      if default_options[:cache_expires_in].nil?
-        default_options[:cache_expires_in] = FHTTPClient.config.cache.expires_in
-      end
+      default_options[:cache_expires_in] = config.cache.expires_in if default_options[:cache_expires_in].nil?
 
       return default_options[:cache_expires_in] unless expires_in
 
       default_options[:cache_expires_in] = expires_in
     end
 
-    parser FHTTPClient::Parser::Response
-
-    def run
-      response = make_cached_request.value!
-
-      FHTTPClient::Processor::Response.(response: response)
-    rescue StandardError => e
-      FHTTPClient::Processor::Exception.(error: e)
-        .on_failure(:uncaught_error) { raise e }
-    end
-
     private
+
+    def configure_base_uri
+      return Success(:uri_already_configured) if self.class.base_uri.present?
+
+      return Failure(:no_base_uri_configured) if config.base_uri.blank?
+
+      self.class.base_uri(config.base_uri)
+
+      Success(:base_uri_configured)
+    end
 
     def make_cached_request
       FHTTPClient::Store.(
@@ -77,12 +91,20 @@ module FHTTPClient
       )
     end
 
+    def config
+      self.class.config
+    end
+
+    def log_strategy
+      config.log_strategy
+    end
+
     def cache_strategy
-      self.class.default_options[:cache_strategy]
+      self.class.default_options[:cache_strategy] || config.cache.strategy
     end
 
     def cache_expires_in
-      self.class.default_options[:cache_expires_in]
+      self.class.default_options[:cache_expires_in] || config.cache.expires_in
     end
 
     def skip_cache_if
