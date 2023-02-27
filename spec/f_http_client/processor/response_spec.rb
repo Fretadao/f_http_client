@@ -37,6 +37,10 @@ RSpec.describe FHTTPClient::Processor::Response do
       context 'when some log strategy is informed' do
         subject(:response_processor) { described_class.(response: response, log_strategy: :default) }
 
+        let(:ruby_logger) { instance_spy(Logger, :ruby_logger) }
+
+        before { allow(Logger).to receive(:new).and_return(ruby_logger) }
+
         it 'logs the request using informed strategy' do
           response_processor
           expect(FHTTPClient::Log).to have_received(:call)

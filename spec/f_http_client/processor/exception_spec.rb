@@ -30,6 +30,10 @@ RSpec.describe FHTTPClient::Processor::Exception do
       context 'when some log strategy is informed' do
         subject(:exception_processor) { described_class.(error: error, log_strategy: :default) }
 
+        let(:ruby_logger) { instance_spy(Logger, :ruby_logger) }
+
+        before { allow(Logger).to receive(:new).and_return(ruby_logger) }
+
         it 'logs the request using informed strategy' do
           exception_processor
           expect(FHTTPClient::Log).to have_received(:call)
