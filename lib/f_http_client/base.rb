@@ -28,7 +28,7 @@ module FHTTPClient
     end
 
     def self.config
-      FHTTPClient::Configuration.config
+      raise NotImplementedError, 'Clients must implement .config'
     end
 
     def self.cache_strategy(strategy = nil)

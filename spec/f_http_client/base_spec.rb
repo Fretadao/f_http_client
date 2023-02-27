@@ -33,6 +33,12 @@ RSpec.describe FHTTPClient::Base do
 
       it { expect { client.() }.to raise_error NotImplementedError, 'Clients must implement #make_request' }
     end
+
+    describe '.config' do
+      subject(:client) { Class.new(described_class) }
+
+      it { expect { client.config }.to raise_error NotImplementedError, 'Clients must implement .config' }
+    end
   end
 
   describe '.parser' do
@@ -57,11 +63,11 @@ RSpec.describe FHTTPClient::Base do
     context 'when a nil cache_strategy is informed' do
       subject(:client) do
         Class.new(described_class) do
-          cache_strategy nil
-
           def self.config
             FHTTPClient::Configuration.config
           end
+
+          cache_strategy nil
         end
       end
 
@@ -73,6 +79,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when a blank cache_strategy is informed' do
       subject(:client) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           cache_strategy ''
         end
       end
@@ -85,6 +95,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when a cache_strategy is informed' do
       subject(:client) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           cache_strategy :rails
         end
       end
@@ -99,6 +113,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when a nil cache_expires_in is informed' do
       subject(:client) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           cache_expires_in nil
         end
       end
@@ -111,6 +129,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when a blank cache_expires_in is informed' do
       subject(:client) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           cache_expires_in ''
         end
       end
@@ -123,6 +145,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when a cache_expires_in is informed' do
       subject(:client) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           cache_expires_in 3_600
         end
       end
@@ -137,6 +163,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when base_uri is not provided' do
       subject(:find_post) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           private
 
           def make_request
@@ -161,6 +191,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when base_uri is provided from the configuration class' do
       subject(:find_post) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           private
 
           def make_request
@@ -236,6 +270,10 @@ RSpec.describe FHTTPClient::Base do
     context 'when base_uri is provided in current service class' do
       subject(:find_post) do
         Class.new(described_class) do
+          def self.config
+            FHTTPClient::Configuration.config
+          end
+
           base_uri 'https://api.myblog.com'
 
           private
