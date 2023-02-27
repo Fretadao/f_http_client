@@ -4,8 +4,8 @@
 
 require 'dry/configurable/test_interface'
 
-# FHTTPClient.configuration.enable_test_interface
-#
-# RSpec.configure do |config|
-#   config.before { FHTTPClient.configuration.reset_config }
-# end
+FHTTPClient::Configuration.enable_test_interface
+
+RSpec.configure do |config|
+  config.before { FHTTPClient::Configuration.reset_config }
+end
