@@ -9,3 +9,4 @@
 - Add Response and Exception processors;
 - Add Base client class;
 - Add Basic configuration;
+- Add RSpec helpers to simulate responses
