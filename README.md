@@ -35,14 +35,9 @@ BlogClient::Configuration.configure do |config|
   config.base_uri = 'https://jsonplaceholder.typicode.com'
   confg.log_strategy = :rails
 
-  config.cache do |cache_config|
-    cache_config.strategy :rails
-    cache_config.expires_in 25.minutes
-  end
-
-  congfig.paginate do |pagination_config|
-    pagination_config.per_page = 50
-  end
+  config.cache.strategy = :rails
+  config.cache.expires_in = 25.minutes
+  config.paginate.per_page = 50
 end
 
 
