@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Add FService as runtime dependency.
+
 ## [0.1.0] - 2023-02-13
 
 - Initial release
