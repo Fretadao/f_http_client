@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'addressable'
   spec.add_runtime_dependency 'dry-configurable'
   spec.add_runtime_dependency 'dry-initializer'
+  spec.add_runtime_dependency 'f_service', '>= 0.3.0'
   spec.add_runtime_dependency 'httparty'
 
   # For more information and examples about making a new gem, check out our
