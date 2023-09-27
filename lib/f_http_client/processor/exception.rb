@@ -29,6 +29,8 @@ module FHTTPClient
         case error.class.to_s
         when 'Errno::ECONNREFUSED'
           :connection_refused
+        when 'SocketError'
+          :connection_error
         when /timeout/i
           :timeout
         else
