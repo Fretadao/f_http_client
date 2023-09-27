@@ -71,7 +71,7 @@ RSpec.describe FHTTPClient::Processor::Exception do
       end
 
       context 'when the connection could not happen' do
-        let(:error) { SocketError.new('Failed to open TCP connection to fretadao-web:3000 (getaddrinfo: Temporary failure in name resolution)') }
+        let(:error) { SocketError.new('Failed to open TCP connection to...') }
 
         it 'logs the request' do
           exception_processor
