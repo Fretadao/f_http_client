@@ -70,6 +70,19 @@ RSpec.describe FHTTPClient::Processor::Exception do
         end
       end
 
+      context 'when the connection could not happen' do
+        let(:error) { SocketError.new('Failed to open TCP connection to...') }
+
+        it 'logs the request' do
+          exception_processor
+          expect(FHTTPClient::Log).to have_received(:call)
+        end
+
+        it 'fails with connection refused error' do
+          expect(exception_processor).to have_failed_with(:connection_error, :exception).and_error(error)
+        end
+      end
+
       context 'when the connection gets a timeout' do
         let(:error) { Net::ReadTimeout.new('a timeout happened') }
 

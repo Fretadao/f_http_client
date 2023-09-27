@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Add rescue to SocketError exception;
+
 ## [0.2.0] - 2023-05-22
 
 - Add FService as runtime dependency.
