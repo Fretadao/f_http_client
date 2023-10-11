@@ -119,3 +119,7 @@ RSpec/MultipleMemoizedHelpers:
 
 RSpec/NestedGroups:
   Enabled: false
+
+##### RUBYGEMS #####
+Gemspec/RequireMFA:
+  Enabled: false
