@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Change Disable rubygems MFA checking #14
+
 ## [0.2.1] - 2023-09-27
 
 - Add rescue to SocketError exception. #12
