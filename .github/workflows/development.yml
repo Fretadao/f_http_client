@@ -19,7 +19,7 @@ jobs:
           - '3.2.1'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -35,7 +35,7 @@ jobs:
       run: bundle exec rspec -fp
 
     - name: Archive coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: coverage
