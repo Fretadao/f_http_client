@@ -28,7 +28,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
         allow(rails_cache).to receive(:read).with(cache_name).and_return(cached_value)
       end
 
-      context 'when result is cached' do
+      context 'and result is cached' do
         let(:options) { { expires_in: 3_600 } }
         let(:block) { -> { 10 * 10 } }
         let(:cached_value) { 'cached value' }

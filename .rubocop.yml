@@ -1,6 +1,7 @@
 plugins:
   - rubocop-rspec
   - rubocop-performance
+  - rubocop-vicenzo
 
 AllCops:
   TargetRubyVersion: 3.0
@@ -15,6 +16,14 @@ AllCops:
 
 ##### LAYOUT #####
 
+Layout/ArgumentAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+
+Layout/FirstArgumentIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
 Layout/FirstArrayElementIndentation:
   Enabled: true
   EnforcedStyle: consistent
@@ -23,9 +32,43 @@ Layout/FirstHashElementIndentation:
   Enabled: true
   EnforcedStyle: consistent
 
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+
 Layout/LineLength:
   Max: 120
   AllowedPatterns: ['(\A|\s)#']
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineArrayBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineHashBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
 
 ##### STYLE #####
 
@@ -55,9 +98,6 @@ Style/LambdaCall:
   Enabled: false
 
 Style/Documentation:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
   Enabled: false
 
 ##### LINT #####
@@ -137,3 +177,11 @@ RSpec/SpecFilePathFormat:
 ##### RUBYGEMS #####
 Gemspec/RequireMFA:
   Enabled: false
+
+##### Vicenzo #####
+
+Vicenzo/Style/MultilineMethodCallParentheses:
+  AllowedMethods:
+    - to
+    - not_to
+    - to_not

@@ -118,6 +118,10 @@ GEM
     rubocop-rspec (3.9.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.81)
+    rubocop-vicenzo (0.3.0)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.2)
+      rubocop-rspec (>= 3.5.0)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     simplecov (0.22.0)
@@ -155,6 +159,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rspec
+  rubocop-vicenzo
   simplecov
   webmock
 
