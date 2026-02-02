@@ -1,15 +1,12 @@
 ## Tipo de alteração
 
-Este MR implementa as seguintes alterações:
-_(Deixe apenas os itens aplicáveis)_
+Este PR implementa as seguintes alterações:
+<!-- Deixe apenas os itens aplicáveis -->
 
-- :sparkles: **Nova feature** (alteração que adiciona funcionalidade).
-
-- :bug: **Correção de bug** (alteração que corrige um problema).
-
-- :boom: **Breaking change** (correção ou feature que causaria alterações na funcionalidade existente).
-
-- :heavy_check_mark: **Dívida técnica** (alteração que resolve dívidas técnicas no sistema como falta de testes para funcionalidades antigas ou refatorações).
+- :sparkles: **Nova feature**. <!-- alteração que adiciona funcionalidade. -->
+- :bug: **Correção de bug**.<!-- alteração que corrige um problema. -->
+- :boom: **Breaking change**. <!-- correção ou feature que causaria alterações na funcionalidade existente. -->
+- :heavy_check_mark: **Dívida técnica**. <!-- alteração que resolve dívidas técnicas no sistema como falta de testes para funcionalidades antigas ou refatorações. -->
 
 ## Detalhes da solução
 
