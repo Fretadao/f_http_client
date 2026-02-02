@@ -128,10 +128,7 @@ RSpec.describe MyApi::Products::List do
     # Use with FService matchers
     expect(service_result)
       .to have_succeed_with(:ok, :successful)
-      .and_value(f_http_client_response_including(
-        products: have_attributes(size: 2),
-        page: be_a(Integer)
-      ))
+      .and_value(f_http_client_response_including(products: have_attributes(size: 2), page: be_a(Integer)))
   end
 
   it 'supports nested matchers' do
@@ -141,9 +138,8 @@ RSpec.describe MyApi::Products::List do
     response = described_class.().value
 
     # Direct response testing
-    expect(response).to f_http_client_response_including(
-      items: a_collection_containing_exactly(a_hash_including(id: 1))
-    )
+    expect(response)
+      .to f_http_client_response_including(items: a_collection_containing_exactly(a_hash_including(id: 1)))
   end
 end
 ```
