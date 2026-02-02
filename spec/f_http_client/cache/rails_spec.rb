@@ -62,7 +62,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
 
           context 'and skip if option is provided' do
             context 'but result can not be cached' do
-              let(:is_even) { ->(number) { number.even? } }
+              let(:is_even) { lambda(&:even?) }
               let(:options) { { expires_in: 3_600, skip_if: is_even } }
 
               it 'does not cache the value', :aggregate_failures do
@@ -72,7 +72,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
             end
 
             context 'and result can be cached' do
-              let(:is_odd) { ->(number) { number.odd? } }
+              let(:is_odd) { lambda(&:odd?) }
               let(:options) { { expires_in: 3_600, skip_if: is_odd } }
 
               it 'caches the value', :aggregate_failures do

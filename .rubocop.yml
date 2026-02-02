@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rspec
   - rubocop-performance
 
@@ -70,7 +70,7 @@ Lint/MissingSuper:
 Naming/InclusiveLanguage:
   Enabled: false
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
     - have_
@@ -110,15 +110,29 @@ RSpec/ContextWording:
 RSpec/ExampleLength:
   Max: 20
 
-RSpec/FilePath:
-  CustomTransform:
-    FHTTPClient: f_http_client
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/f_http_client/rspec/matchers/**/*'
+
+  # This directory contains specs for custom RSpec matchers.
+  # These examples intentionally use nested `expect { ... }.to raise_error(...)`
+  # to assert on matcher failure messages, which inherently requires more than
+  # one `expect` per example and conflicts with the MultipleExpectations cop.
+  #
+  # Using `:aggregate_failures` here is not an option, because it captures the
+  # inner expectation failure and re-raises an aggregated error, so the outer
+  # `raise_error` matcher no longer sees the original `ExpectationNotMetError`
+  # and the specs for the failure messages become impossible to express.
 
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
 RSpec/NestedGroups:
   Enabled: false
+
+RSpec/SpecFilePathFormat:
+  CustomTransform:
+    FHTTPClient: f_http_client
 
 ##### RUBYGEMS #####
 Gemspec/RequireMFA:

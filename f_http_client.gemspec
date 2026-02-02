@@ -30,12 +30,12 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
-  spec.add_runtime_dependency 'activesupport'
-  spec.add_runtime_dependency 'addressable'
-  spec.add_runtime_dependency 'dry-configurable'
-  spec.add_runtime_dependency 'dry-initializer'
-  spec.add_runtime_dependency 'f_service', '>= 0.3.0'
-  spec.add_runtime_dependency 'httparty'
+  spec.add_dependency 'activesupport', '>= 7.2'
+  spec.add_dependency 'addressable'
+  spec.add_dependency 'dry-configurable'
+  spec.add_dependency 'dry-initializer'
+  spec.add_dependency 'f_service', '>= 0.3.0'
+  spec.add_dependency 'httparty'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
