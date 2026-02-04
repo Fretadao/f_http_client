@@ -81,10 +81,10 @@ module FHTTPClient
       # # => "Unprocessable Entity"
       def message
         @message ||= response_class
-                     .to_s
-                     .delete_prefix('Net::HTTP')
-                     .gsub(/([A-Z]+)([A-Z][a-z])/, '\1 \2')
-                     .gsub(/([a-z])([A-Z])/, '\1 \2')
+          .to_s
+          .delete_prefix('Net::HTTP')
+          .gsub(/([A-Z]+)([A-Z][a-z])/, '\1 \2')
+          .gsub(/([a-z])([A-Z])/, '\1 \2')
       end
 
       # Private

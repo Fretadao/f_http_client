@@ -36,7 +36,8 @@ RSpec.describe FHTTPClient::Store do
               key: '/user/1',
               block: block_to_proccess,
               skip_if: skip_if
-            ).value
+            )
+              .value
 
             expect(service_result).to eq(block_result)
             expect(FHTTPClient::Cache::Rails)
@@ -54,7 +55,8 @@ RSpec.describe FHTTPClient::Store do
               key: '/user/1',
               block: block_to_proccess,
               expires_in: expires_in
-            ).value
+            )
+              .value
 
             expect(service_result).to eq(block_result)
             expect(FHTTPClient::Cache::Rails)
@@ -91,7 +93,8 @@ RSpec.describe FHTTPClient::Store do
             key: '/user/1',
             block: block_to_proccess,
             skip_if: skip_if
-          ).value
+          )
+            .value
 
           expect(service_result).to eq(block_result)
           expect(FHTTPClient::Cache::Null)
@@ -109,7 +112,8 @@ RSpec.describe FHTTPClient::Store do
             key: '/user/1',
             block: block_to_proccess,
             expires_in: expires_in
-          ).value
+          )
+            .value
 
           expect(service_result).to eq(block_result)
           expect(FHTTPClient::Cache::Null)

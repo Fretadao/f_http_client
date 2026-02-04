@@ -23,7 +23,8 @@ module FHTTPClient
         FHTTPClient::Processor::Response.(response: response, log_strategy: log_strategy)
       end
     rescue StandardError => e
-      FHTTPClient::Processor::Exception.(error: e, log_strategy: log_strategy)
+      FHTTPClient::Processor::Exception
+        .(error: e, log_strategy: log_strategy)
         .on_failure(:uncaught_error) { raise e }
     end
 

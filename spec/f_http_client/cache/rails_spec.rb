@@ -28,7 +28,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
         allow(rails_cache).to receive(:read).with(cache_name).and_return(cached_value)
       end
 
-      context 'when result is cached' do
+      context 'and result is cached' do
         let(:options) { { expires_in: 3_600 } }
         let(:block) { -> { 10 * 10 } }
         let(:cached_value) { 'cached value' }
@@ -62,7 +62,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
 
           context 'and skip if option is provided' do
             context 'but result can not be cached' do
-              let(:is_even) { ->(number) { number.even? } }
+              let(:is_even) { lambda(&:even?) }
               let(:options) { { expires_in: 3_600, skip_if: is_even } }
 
               it 'does not cache the value', :aggregate_failures do
@@ -72,7 +72,7 @@ RSpec.describe FHTTPClient::Cache::Rails do
             end
 
             context 'and result can be cached' do
-              let(:is_odd) { ->(number) { number.odd? } }
+              let(:is_odd) { lambda(&:odd?) }
               let(:options) { { expires_in: 3_600, skip_if: is_odd } }
 
               it 'caches the value', :aggregate_failures do

@@ -1,6 +1,7 @@
-require:
+plugins:
   - rubocop-rspec
   - rubocop-performance
+  - rubocop-vicenzo
 
 AllCops:
   TargetRubyVersion: 3.0
@@ -15,6 +16,14 @@ AllCops:
 
 ##### LAYOUT #####
 
+Layout/ArgumentAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+
+Layout/FirstArgumentIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
 Layout/FirstArrayElementIndentation:
   Enabled: true
   EnforcedStyle: consistent
@@ -23,9 +32,43 @@ Layout/FirstHashElementIndentation:
   Enabled: true
   EnforcedStyle: consistent
 
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+
 Layout/LineLength:
   Max: 120
   AllowedPatterns: ['(\A|\s)#']
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineArrayBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineHashBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
 
 ##### STYLE #####
 
@@ -57,9 +100,6 @@ Style/LambdaCall:
 Style/Documentation:
   Enabled: false
 
-Style/ClassAndModuleChildren:
-  Enabled: false
-
 ##### LINT #####
 
 Lint/MissingSuper:
@@ -70,7 +110,7 @@ Lint/MissingSuper:
 Naming/InclusiveLanguage:
   Enabled: false
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
     - have_
@@ -110,9 +150,19 @@ RSpec/ContextWording:
 RSpec/ExampleLength:
   Max: 20
 
-RSpec/FilePath:
-  CustomTransform:
-    FHTTPClient: f_http_client
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/f_http_client/rspec/matchers/**/*'
+
+  # This directory contains specs for custom RSpec matchers.
+  # These examples intentionally use nested `expect { ... }.to raise_error(...)`
+  # to assert on matcher failure messages, which inherently requires more than
+  # one `expect` per example and conflicts with the MultipleExpectations cop.
+  #
+  # Using `:aggregate_failures` here is not an option, because it captures the
+  # inner expectation failure and re-raises an aggregated error, so the outer
+  # `raise_error` matcher no longer sees the original `ExpectationNotMetError`
+  # and the specs for the failure messages become impossible to express.
 
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
@@ -120,6 +170,18 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/NestedGroups:
   Enabled: false
 
+RSpec/SpecFilePathFormat:
+  CustomTransform:
+    FHTTPClient: f_http_client
+
 ##### RUBYGEMS #####
 Gemspec/RequireMFA:
   Enabled: false
+
+##### Vicenzo #####
+
+Vicenzo/Style/MultilineMethodCallParentheses:
+  AllowedMethods:
+    - to
+    - not_to
+    - to_not

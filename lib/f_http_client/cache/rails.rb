@@ -2,7 +2,8 @@
 
 module FHTTPClient
   module Cache
-    RailsNotDefined = Class.new(StandardError)
+    class RailsNotDefined < StandardError
+    end
 
     class Rails
       class << self

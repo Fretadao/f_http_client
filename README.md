@@ -109,6 +109,47 @@ The class *FHTTPClient::Base* provides the following options to help building th
 - *options*: can be used provide any other option for HTTParty;
 - *path_params*, can be used to fills params which is in the request path.
 
+## RSpec Matchers
+
+### `f_http_client_response_including`
+
+Tests HTTParty::Response objects with support for nested RSpec matchers.
+
+```rb
+require 'f_http_client/rspec'
+
+RSpec.describe MyApi::Products::List do
+  it 'returns successful response with products' do
+    stub_request(:get, "https://api.example.com/products")
+      .to_return(status: 200, body: { products: [{id: 1}, {id: 2}] }.to_json)
+
+    service_result = described_class.()
+
+    # Use with FService matchers
+    expect(service_result)
+      .to have_succeed_with(:ok, :successful)
+      .and_value(f_http_client_response_including(products: have_attributes(size: 2), page: be_a(Integer)))
+  end
+
+  it 'supports nested matchers' do
+    stub_request(:get, "https://api.example.com/products")
+      .to_return(status: 200, body: { items: [{id: 1}] }.to_json)
+
+    response = described_class.().value
+
+    # Direct response testing
+    expect(response)
+      .to f_http_client_response_including(items: a_collection_containing_exactly(a_hash_including(id: 1)))
+  end
+end
+```
+
+The matcher:
+- Automatically calls `parsed_response` on HTTParty::Response objects
+- Supports any nested RSpec matchers (`have_attributes`, `a_hash_including`, `be_a`, etc.)
+- Works seamlessly with FService's `.and_value()` and `.and_error()` matchers
+- Provides clear failure messages showing expected vs actual
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests.
