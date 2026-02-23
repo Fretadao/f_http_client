@@ -83,6 +83,19 @@ RSpec.describe FHTTPClient::Processor::Exception do
         end
       end
 
+      context 'when the connection has an SSL error' do
+        let(:error) { OpenSSL::SSL::SSLError.new('SSL_connect returned=1 errno=0 state=error: certificate verify failed') }
+
+        it 'logs the request' do
+          exception_processor
+          expect(FHTTPClient::Log).to have_received(:call)
+        end
+
+        it 'fails with ssl error' do
+          expect(exception_processor).to have_failed_with(:ssl_error, :exception).and_error(error)
+        end
+      end
+
       context 'when the connection gets a timeout' do
         let(:error) { Net::ReadTimeout.new('a timeout happened') }
 

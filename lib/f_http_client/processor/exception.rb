@@ -31,6 +31,8 @@ module FHTTPClient
           :connection_refused
         when 'SocketError'
           :connection_error
+        when 'OpenSSL::SSL::SSLError'
+          :ssl_error
         when /timeout/i
           :timeout
         else
