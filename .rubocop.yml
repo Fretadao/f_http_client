@@ -4,7 +4,7 @@ plugins:
   - rubocop-vicenzo
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   SuggestExtensions: false
   NewCops: enable
   CacheRootDirectory: tmp
