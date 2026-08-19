@@ -6,8 +6,10 @@ module FixtureHelper
     File.read(full_path)
   end
 
+  # The string-keyed counterpart of load_fixture_json_symbolized, so the default is
+  # spelled out rather than implied.
   def load_fixture_json(path)
-    JSON.parse(load_fixture_file(path))
+    JSON.parse(load_fixture_file(path), symbolize_names: false)
   end
 
   def load_fixture_json_symbolized(path)
