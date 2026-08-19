@@ -1,4 +1,6 @@
-## [Unreleased]
+# Changelog
+
+## [0.3.0] - 2026-08-19
 
 - Add `f_http_client_response_including` RSpec matcher for testing HTTParty::Response objects with nested matchers
 - Fix Ruby 4.0+ compatibility by adding activesupport >= 7.2, ostruct, and csv dependencies
