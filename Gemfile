@@ -25,5 +25,5 @@ end
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
-  gem 'rake', '~> 13.0'
+  gem 'rake', '~> 13.4'
 end
