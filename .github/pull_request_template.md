@@ -1,42 +1,48 @@
-## Tipo de alteração
+## What changed
 
-Este PR implementa as seguintes alterações:
-<!-- Deixe apenas os itens aplicáveis -->
+<!-- What this PR does and why. Link the ClickUp card or an issue if there is one. -->
 
-- :sparkles: **Nova feature**. <!-- alteração que adiciona funcionalidade. -->
-- :bug: **Correção de bug**.<!-- alteração que corrige um problema. -->
-- :boom: **Breaking change**. <!-- correção ou feature que causaria alterações na funcionalidade existente. -->
-- :heavy_check_mark: **Dívida técnica**. <!-- alteração que resolve dívidas técnicas no sistema como falta de testes para funcionalidades antigas ou refatorações. -->
+## Type of change
 
-## Detalhes da solução
+<!-- Keep only what applies. It must match the Conventional Commit type in the PR title. -->
 
-- Se você implementou novas features:
+- [ ] `feat` — new capability *(triggers a minor release)*
+- [ ] `fix` — bug fix *(triggers a patch release)*
+- [ ] `refactor` — behaviour-preserving change *(no release)*
+- [ ] `chore` / `ci` / `docs` / `test` / `style` — maintenance *(no release)*
+- [ ] breaking change — `!` in the title or a `BREAKING CHANGE:` footer
 
-  - **Forneça uma descrição da adição** com o maior número possível de detalhes.
+## Behaviour before and after
 
-  - **Forneça uma exemplo executável do uso da sua adição**. Isso permite que revisores e outros experimentem o recurso antes que ele seja lançado.
+<!--
+Only when this changes existing behaviour. Describe what it did before, what it does
+now, and what could break for a consumer.
 
-- Se você mudou o comportamento atual ...
+Changing the types a result carries counts as breaking, even when only adding one:
+the FService matchers compare the type list for equality, so a consuming spec doing
+`have_failed_with(:conflict, :client_error)` fails once a third type shows up.
+`on_failure` hooks are unaffected — they match by inclusion.
+-->
 
-  - **Descreva o comportamento anterior às alterações**
+## Additional context
 
-  - **Descreva o comportamento após as alterações** e justifique por que você fez as alterações,
-
-  - **Descreva possíveis quebras** que você prevê como resultado dessas alterações.
-
-- **Sua alteração altera APIs ou métodos / tipos expostos existentes?**
-
-  - Nesse caso, isso pode causar problemas de dependência e quebras o que deve ser considerado na versão do próximo lançamento.
-
-## Contexto Adicional
-
-Algo a mais que gostaria de citar? Fontes? Artigos? Screenshots (se relevantes)?
+<!-- Sources, articles, screenshots — anything that helps the review. -->
 
 ## TO-DO
-Algo que interessante que ficou de fora e pode ser feito depois?
 
-# Checklist
+<!-- Anything deliberately left out, to be picked up later. -->
 
-- [ ] Testes para novos comportamentos inseridos.
-- [ ] Atualização do Changelog.
-- [ ] Nova versão.
+## Checklist
+
+- [ ] The **PR title** is a valid Conventional Commit (`type: short description`).
+      This PR is squash-merged, so the title is the commit release-please reads to
+      decide the next version and to write the `CHANGELOG.md`.
+- [ ] `bundle exec rubocop -c .rubocop.yml --parallel` and `bundle exec rspec` pass
+      locally.
+- [ ] New behaviour ships with specs.
+- [ ] The `CHANGELOG.md` was **not** edited by hand and the version was **not**
+      bumped; release-please owns both.
+- [ ] A breaking change is flagged with `!` or a `BREAKING CHANGE:` footer, and says
+      what consumers should use instead.
+
+<!-- See CONTRIBUTING.md for the commit conventions and the release flow. -->
