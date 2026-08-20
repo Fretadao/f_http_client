@@ -93,11 +93,42 @@ Result examples:
 ```rb
 Person::Create.(name: 'Joe Vicenzo', birthdate: '2000-01-01')
   .and_then { |user| return redirect_to users_path(user.id) }
-  .on_failure(:unprocessable_entity) { |errors| return render_action :new, locals: { errors: errors } }
+  .on_failure(:unprocessable_content) { |errors| return render_action :new, locals: { errors: errors } }
   .on_failure(:client_error) { |errors| render_action :new, warning: errors }
   .on_failure(:server_error) { |error| render_action :new, warning: ['Try again latter.'] }
   .on_failure(:server_error) { |error| render_action :new, warning: ['Server is busy. Try again latter.'] }
   .on_failure { |_error, type| render_action :new, warning: ["Unexpected error. Contact admin and talk about #{type} error."] }
+```
+
+### Status names renamed by RFC 9110
+
+The failure/success type comes from the `Net::HTTPResponse` class name, which still carries the
+pre-RFC 9110 names for two status codes. Rack 3.1+ — and therefore every Rails app — already
+canonicalized them. For those two codes the result carries **both** symbols as types, canonical
+first, so either name matches:
+
+| Status | Canonical type (Rack 3.1+) | Legacy type (still matches) |
+|--------|----------------------------|-----------------------------|
+| 422    | `:unprocessable_content`   | `:unprocessable_entity`     |
+| 413    | `:content_too_large`       | `:payload_too_large`        |
+
+```rb
+# A 422 response yields the types below, in this order:
+# [:unprocessable_content, :unprocessable_entity, :client_error]
+
+Person::Create.(name: 'Joe Vicenzo')
+  .on_failure(:unprocessable_content) { |errors| render_action :new, locals: { errors: errors } }
+  .on_failure(:unprocessable_entity) { |errors| render_action :new, locals: { errors: errors } }
+```
+
+Prefer the canonical name: an untyped `on_failure` receives it as the `type`, and the legacy one is
+kept only to ease the migration — it will be dropped in a future major release.
+
+If you assert on types with the FService matchers, note that `have_failed_with` compares the whole
+type list, so specs covering those two codes need the full trio:
+
+```rb
+expect(result).to have_failed_with(:unprocessable_content, :unprocessable_entity, :client_error)
 ```
 
 This gem uses the gem [HTTParty](https://github.com/jnunemaker/httparty) as base to perform requests.

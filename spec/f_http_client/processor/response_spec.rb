@@ -82,10 +82,10 @@ RSpec.describe FHTTPClient::Processor::Response do
           expect(FHTTPClient::Log).to have_received(:call)
         end
 
-        it 'returns a Fservice failure', :aggregate_failures do
-          processed_response = response_processor
-          expect(processed_response).to have_failed_with(:continue, :informational)
-          expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+        it 'returns a Fservice failure' do
+          expect(response_processor)
+            .to have_failed_with(:continue, :informational)
+            .and_error(be_an_instance_of(HTTParty::Response))
         end
       end
 
@@ -98,10 +98,10 @@ RSpec.describe FHTTPClient::Processor::Response do
           expect(FHTTPClient::Log).to have_received(:call)
         end
 
-        it 'returns a Fservice success', :aggregate_failures do
-          processed_response = response_processor
-          expect(processed_response).to have_succeed_with(:created, :successful)
-          expect(processed_response.value).to be_an_instance_of(HTTParty::Response)
+        it 'returns a Fservice success' do
+          expect(response_processor)
+            .to have_succeed_with(:created, :successful)
+            .and_value(be_an_instance_of(HTTParty::Response))
         end
       end
 
@@ -114,10 +114,10 @@ RSpec.describe FHTTPClient::Processor::Response do
           expect(FHTTPClient::Log).to have_received(:call)
         end
 
-        it 'returns a Fservice failure', :aggregate_failures do
-          processed_response = response_processor
-          expect(processed_response).to have_failed_with(:not_found, :client_error)
-          expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+        it 'returns a Fservice failure' do
+          expect(response_processor)
+            .to have_failed_with(:not_found, :client_error)
+            .and_error(be_an_instance_of(HTTParty::Response))
         end
       end
 
@@ -130,10 +130,57 @@ RSpec.describe FHTTPClient::Processor::Response do
           expect(FHTTPClient::Log).to have_received(:call)
         end
 
-        it 'returns a Fservice failure', :aggregate_failures do
-          processed_response = response_processor
-          expect(processed_response).to have_failed_with(:bad_gateway, :server_error)
-          expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+        it 'returns a Fservice failure' do
+          expect(response_processor)
+            .to have_failed_with(:bad_gateway, :server_error)
+            .and_error(be_an_instance_of(HTTParty::Response))
+        end
+      end
+
+      context 'when the http response is an unprocessable content' do
+        let(:code) { 422 }
+        let(:body) { { errors: { name: ["can't be blank"] } } }
+
+        it 'returns a Fservice failure carrying both the canonical and the legacy type' do
+          expect(response_processor)
+            .to have_failed_with(:unprocessable_content, :unprocessable_entity, :client_error)
+            .and_error(be_an_instance_of(HTTParty::Response))
+        end
+
+        it 'matches on_failure by the canonical type' do
+          expect { |handler| response_processor.on_failure(:unprocessable_content, &handler) }
+            .to yield_control
+        end
+
+        it 'matches on_failure by the legacy type' do
+          expect { |handler| response_processor.on_failure(:unprocessable_entity, &handler) }
+            .to yield_control
+        end
+
+        it 'yields the canonical type to an untyped on_failure' do
+          expect { |handler| response_processor.on_failure(&handler) }
+            .to yield_with_args(an_instance_of(HTTParty::Response), :unprocessable_content)
+        end
+      end
+
+      context 'when the http response is a content too large' do
+        let(:code) { 413 }
+        let(:body) { { errors: { file: ['is too big'] } } }
+
+        it 'returns a Fservice failure carrying both the canonical and the legacy type' do
+          expect(response_processor)
+            .to have_failed_with(:content_too_large, :payload_too_large, :client_error)
+            .and_error(be_an_instance_of(HTTParty::Response))
+        end
+
+        it 'matches on_failure by the canonical type' do
+          expect { |handler| response_processor.on_failure(:content_too_large, &handler) }
+            .to yield_control
+        end
+
+        it 'matches on_failure by the legacy type' do
+          expect { |handler| response_processor.on_failure(:payload_too_large, &handler) }
+            .to yield_control
         end
       end
 
@@ -146,10 +193,10 @@ RSpec.describe FHTTPClient::Processor::Response do
           expect(FHTTPClient::Log).to have_received(:call)
         end
 
-        it 'returns a Fservice failure', :aggregate_failures do
-          processed_response = response_processor
-          expect(processed_response).to have_failed_with(:unknown_type, :unknown_family)
-          expect(processed_response.error).to be_an_instance_of(HTTParty::Response)
+        it 'returns a Fservice failure' do
+          expect(response_processor)
+            .to have_failed_with(:unknown_type, :unknown_family)
+            .and_error(be_an_instance_of(HTTParty::Response))
         end
       end
     end

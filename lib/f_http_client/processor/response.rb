@@ -34,6 +34,24 @@ module FHTTPClient
 
       private_constant :STATUS_FAMILIES
 
+      # Status codes whose canonical name changed with RFC 9110. The type comes from
+      # Net::HTTPResponse::CODE_TO_OBJ, which still carries the pre-RFC names, while Rack
+      # 3.1+ (and therefore every Rails app consuming this gem) already canonicalized them.
+      # Emitting both symbols, canonical first, lets `on_failure` match either name so
+      # consumers can migrate at their own pace.
+      #
+      # TODO: Drop this constant and #response_types once net-http adopts the RFC 9110 names
+      # (or the status-to-type source stops being CODE_TO_OBJ) AND consumers have migrated
+      # off the legacy names. See Rack::Utils OBSOLETE_SYMBOL_MAPPINGS (rack >= 3.1).
+      RENAMED_TYPES = {
+        unprocessable_entity: %i[unprocessable_content unprocessable_entity],
+        unprocessable_content: %i[unprocessable_content unprocessable_entity],
+        payload_too_large: %i[content_too_large payload_too_large],
+        content_too_large: %i[content_too_large payload_too_large]
+      }.freeze
+
+      private_constant :RENAMED_TYPES
+
       def run
         log_data.and_then { success? ? success_response : failure_response }
       end
@@ -43,11 +61,24 @@ module FHTTPClient
       def_delegators :@response, :headers, :success?, :parsed_response, :code
 
       def success_response
-        Success(response_type, response_family, data: response)
+        Success(*response_types, response_family, data: response)
       end
 
       def failure_response
-        Failure(response_type, response_family, data: response)
+        Failure(*response_types, response_family, data: response)
+      end
+
+      # Private:
+      # Result types for the response status, from the canonical name to the legacy one.
+      # Ex: When the request returns a 422 (Unprocessable Content)
+      #
+      # # => [:unprocessable_content, :unprocessable_entity]
+      #
+      # Ex: When the request returns a 404 (Not Found)
+      #
+      # # => [:not_found]
+      def response_types
+        RENAMED_TYPES.fetch(response_type) { [response_type] }
       end
 
       # Private:
