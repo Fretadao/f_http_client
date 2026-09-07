@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe 'RSpec::Matchers' do
   describe '#f_http_client_response_including' do
     context 'when actual is not an HTTParty::Response' do
-      let(:not_a_response) { { status: 'ok' } }
+      subject(:not_a_response) { { status: 'ok' } }
 
       it 'does not match' do
         expect(not_a_response).not_to f_http_client_response_including(status: 'ok')
@@ -21,7 +21,7 @@ RSpec.describe 'RSpec::Matchers' do
     end
 
     context 'when actual is an HTTParty::Response' do
-      let(:response) { instance_double(HTTParty::Response, parsed_response: parsed_response_data) }
+      subject(:response) { instance_double(HTTParty::Response, parsed_response: parsed_response_data) }
 
       context 'and informed value is a simple object' do
         context 'but object is not equal to parsed_response' do
