@@ -9,7 +9,7 @@ module FHTTPClient
       protected
 
       def json
-        JSON.parse(body, quirks_mode: true, allow_nan: true, symbolize_names: true)
+        JSON.parse(body, allow_nan: true, symbolize_names: true)
       end
     end
   end
