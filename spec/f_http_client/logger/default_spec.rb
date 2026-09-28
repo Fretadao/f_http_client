@@ -24,7 +24,7 @@ RSpec.describe FHTTPClient::Logger::Default do
       end
     end
 
-    context 'and args are given' do
+    context 'when args are given' do
       context 'and no block is given' do
         it { expect(logger.tagged('FHTTPClient')).to be_an_instance_of(described_class) }
       end
