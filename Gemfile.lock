@@ -48,7 +48,7 @@ GEM
       logger
       zeitwerk (~> 2.6)
     dry-initializer (3.2.0)
-    f_service (0.4.1)
+    f_service (0.5.0)
     hashdiff (1.2.1)
     httparty (0.24.3)
       csv
